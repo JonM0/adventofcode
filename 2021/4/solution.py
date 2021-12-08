@@ -1,7 +1,8 @@
 from typing import List, Callable
 import numpy as np
+from sys import argv
 
-input = open('input.txt').readlines()
+input = open(argv[1]).readlines()
 
 extraction_order = list(map(int, input[0].split(',')))
 extraction_time_map = {n: i for i, n in enumerate(extraction_order)}

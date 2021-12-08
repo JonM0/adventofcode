@@ -1,5 +1,6 @@
 import re
 import numpy as np
+from sys import argv
 
 input_matcher = re.compile(r'(\d+),(\d+) -> (\d+),(\d+)')
 
@@ -33,7 +34,7 @@ class Line:
 
 
 ocean_map = np.zeros(shape=(1000, 1000))
-lines = list(map(Line, open('input.txt')))
+lines = list(map(Line, open(argv[1])))
 
 # first star
 for l in lines:

@@ -1,5 +1,6 @@
+from sys import argv
 
-input = [int(l) for l in open('input.txt')]
+input = [int(l) for l in open(argv[1])]
 inc_count = sum(x < y for (x, y) in zip(input, input[1:]))
 print(f'Increases: {inc_count}')
 

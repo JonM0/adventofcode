@@ -1,6 +1,7 @@
 from typing import List, Tuple
+from sys import argv
 
-input = [tuple(map(int, l.strip('\n'))) for l in open('input.txt')]
+input = [tuple(map(int, l.strip('\n'))) for l in open(argv[1])]
 
 def columnwise_mode(l: List[Tuple[int]]) -> Tuple[int]:
     l_unzipped = list(zip(*l)) # unzip list

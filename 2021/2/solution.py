@@ -1,8 +1,9 @@
 import re
+from sys import argv
 
 move_matcher = re.compile(r'([duf])\w+ (\d+)')
 
-input = [(m[1], int(m[2])) for m in map(move_matcher.match, open('input.txt'))]
+input = [(m[1], int(m[2])) for m in map(move_matcher.match, open(argv[1]))]
 
 # first star
 x, y = 0, 0

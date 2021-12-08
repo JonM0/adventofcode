@@ -1,7 +1,8 @@
 from collections import Counter
 import numpy as np
+from sys import argv
 
-data = Counter(int(n) for n in open('input.txt').readline().split(','))
+data = Counter(int(n) for n in open(argv[1]).readline().split(','))
 
 transition = np.matrix([[0, 1, 0, 0, 0, 0, 0, 0, 0],
                         [0, 0, 1, 0, 0, 0, 0, 0, 0],

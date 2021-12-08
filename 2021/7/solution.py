@@ -1,6 +1,7 @@
 import statistics as st
+from sys import argv
 
-data = [int(n) for n in open('input.txt').readline().split(',')]
+data = [int(n) for n in open(argv[1]).readline().split(',')]
 
 
 def dist(a: int, b: int) -> int:
