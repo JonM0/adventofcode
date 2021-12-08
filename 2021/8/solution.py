@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Iterable, List
+from typing import Iterable
 from sys import argv
 
 standard_signals = {0: set('abcefg'), 1: set('cf'),     2: set('acdeg'), 3: set('acdfg'),   4: set('bcdf'),
@@ -26,14 +26,14 @@ class DigitPattern:
         self.candidates = set(digits_long[len(self.signals)])
         self.true_digit = None
 
-        self.solve([])
+        self.iter_solve()
 
-    def solve(self, solved: Iterable[DigitPattern]) -> None:
-        for d in solved:
+    def iter_solve(self, solved_digits: Iterable[DigitPattern] = []) -> None:
+        for d in solved_digits:
             self.candidates -= {d.true_digit}
             if self.signals > d.signals:
                 self.candidates &= digit_contained_in[d.true_digit]
-            if self.signals < d.signals:
+            elif self.signals < d.signals:
                 self.candidates &= digit_contains[d.true_digit]
 
         if len(self.candidates) == 1:
@@ -41,30 +41,30 @@ class DigitPattern:
 
     @property
     def is_solved(self) -> bool:
-        return self.true_digit != None
+        return self.true_digit is not None
 
 
 class SignalPattern:
-    def __init__(self, digit_patterns):
-        self.patterns = [DigitPattern(x) for x in digit_patterns.split()]
+    def __init__(self, digit_patterns: str):
+        self.digits = [DigitPattern(x) for x in digit_patterns.split()]
 
-        unsolved = set(self.patterns)
+        unsolved = set(self.digits)
         solved = set()
 
-        while(unsolved):
+        while unsolved:
             solved |= {d for d in unsolved if d.is_solved}
             unsolved -= solved
 
             for d in unsolved:
-                d.solve(solved)
+                d.iter_solve(solved)
 
         self.pattern_map = {sorted_str(p.signals): p.true_digit
-                            for p in self.patterns}
+                            for p in self.digits}
 
     def decode_digit(self, pattern: str) -> int:
         return self.pattern_map[pattern]
 
-    def decode_number(self, pattern: List[str]) -> int:
+    def decode_number(self, pattern: Iterable[str]) -> int:
         return int(str.join('', map(str, map(self.decode_digit, pattern))))
 
 
@@ -74,7 +74,7 @@ def process_input(line: str):
             tuple(sorted_str(x) for x in output.split()))
 
 
-data = list(map(process_input, open(argv[1])))
+data = [process_input(l) for l in open(argv[1])]
 
 # first star
 easy_digits = {next(iter(ds)) for ds in digits_long.values() if len(ds) == 1}
