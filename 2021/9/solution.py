@@ -1,3 +1,4 @@
+from colorama import Style
 from collections import deque
 from typing import Iterable, Tuple
 import numpy as np
@@ -61,6 +62,7 @@ class Basin:
 
 cave_floor = CaveFloor(open(argv[1]))
 
-print(f'sum of risk levels for low points: {cave_floor.low_point_risk_levels}')
 
-print(f'product of 3 biggest basin sizes: {cave_floor.largest_3_basins_size_prod}')
+print(f'sum of risk levels for low points: {Style.BRIGHT}{cave_floor.low_point_risk_levels}{Style.RESET_ALL}')
+
+print(f'product of 3 biggest basin sizes: {Style.BRIGHT}{cave_floor.largest_3_basins_size_prod}{Style.RESET_ALL}')
