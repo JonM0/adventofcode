@@ -2,6 +2,7 @@ from colorama import Style
 from sys import argv
 from collections import defaultdict
 from typing import Dict, Iterable, List, Set, Tuple
+from functools import lru_cache
 
 
 class keydefaultdict(defaultdict):
@@ -11,22 +12,6 @@ class keydefaultdict(defaultdict):
         else:
             ret = self[key] = self.default_factory(key)
             return ret
-
-
-def dp(func):
-    cache = dict()
-
-    def inner(*args, **kwargs):
-        a = (args, frozenset(kwargs.items()))
-
-        if a in cache:
-            return cache[a]
-        else:
-            res = func(*args, **kwargs)
-            cache[a] = res
-            return res
-
-    return inner
 
 
 class Cave:
@@ -50,7 +35,7 @@ class CaveMap:
         self.start = cave_named['start']
         self.end = cave_named['end']
 
-    @dp
+    @lru_cache(maxsize=None)
     def paths_count(self, start: Cave, end: Cave, excluding: Set[Cave] = frozenset(), can_visit_one_twice: bool = False) -> int:
         if start == end:
             return 1
@@ -68,3 +53,5 @@ cm = CaveMap(l.strip().split('-') for l in open(argv[1]))
 
 print(f'first star: {Style.BRIGHT}{cm.paths_count(cm.start, cm.end)}{Style.RESET_ALL}')
 print(f'second star: {Style.BRIGHT}{cm.paths_count(cm.start, cm.end, can_visit_one_twice=True)}{Style.RESET_ALL}')
+
+print(cm.paths_count.cache_info())
