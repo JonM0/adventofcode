@@ -10,9 +10,17 @@
             "request": "launch",
             "program": "${file}",
             "args": [
-                "${fileDirname}/input.txt"
+                "${fileDirname}/${input:inputFileName}.txt"
             ],
             "console": "integratedTerminal"
         }
+    ],
+    "inputs": [
+      {
+        "id": "inputFileName",
+        "description": "Please enter a value",
+        "default": "input",
+        "type": "promptString"
+      }
     ]
 }
